@@ -13,6 +13,7 @@ permissions:
   contents: read
 
 jobs:
+
   create:
     runs-on: ubuntu-latest
     steps:
@@ -22,21 +23,11 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       - run: az webapp create -g "$RESOURCE_GROUP" -n "$APP_NAME" --plan "${{ secrets.SHARED_PLAN }}" --runtime "PHP:8.2"
-  deploy:
-    runs-on: ubuntu-latest
-    needs: create
-    steps:
-      - uses: actions/checkout@v7
-      - uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      - run: az webapp deploy -g $RESOURCE_GROUP -n $APP_NAME --src-path ./index.php --type static --target-path /home/site/wwwroot/index.php
+
   delete:
     runs-on: ubuntu-latest
-    needs: deploy
-    if: ${{ always() && needs.deploy.result != 'skipped' }}
+    needs: create
+    if: ${{ always() }}
     steps:
       - uses: azure/login@v2
         with:
