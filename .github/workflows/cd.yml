@@ -16,6 +16,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v7
       - uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
@@ -23,4 +24,5 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - run: az webapp create --name "$APP_NAME" --resource-group "$RESOURCE_GROUP" --plan "plan-npr-prf2026" --runtime "PHP:8.2"
-      - run: az webapp deploy --resource-group $RESOURCE_GROUP --name $APP_NAME --src-path ../../index.php --type static --target-path /home/site/wwwroot/index.php
+      - run: az webapp deploy --resource-group $RESOURCE_GROUP --name $APP_NAME --src-path ./index.php --type static --target-path /home/site/wwwroot/index.php
+      - run: az webapp delete --resource-group $RESOURCE_GROUP --name $APP_NAME
