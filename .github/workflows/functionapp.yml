@@ -1,4 +1,4 @@
-name: CD — AzureTech
+name: CD — Function App AzureTech
 
 on:
   push:
@@ -36,4 +36,4 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       - run: az functionapp delete -g $RESOURCE_GROUP -n $FUNCTION_APP_NAME
-      - run: az storage account delete -g $RESOURCE_GROUP -n $STORAGE_ACC_NAME 
+      - run: az storage account delete -g $RESOURCE_GROUP -n $STORAGE_ACC_NAME --yes
