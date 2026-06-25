@@ -8,6 +8,10 @@ env:
   APP_NAME: api-appservice-nathan
   RESOURCE_GROUP: rg-nathan-tesseyre-prf2026
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
