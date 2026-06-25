@@ -1,4 +1,4 @@
-name: CD — Function App AzureTech
+name: CD — Container App AzureTech
 
 on:
   push:
