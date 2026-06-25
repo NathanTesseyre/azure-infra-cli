@@ -1,0 +1,22 @@
+name: CD — AzureTech
+
+on:
+  push:
+    branches: [main]
+
+env:
+  APP_NAME: api-appservice-nathan
+  RESOURCE_GROUP: rg-nathan-tesseyre-prf2026
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - run: az webapp create --name "$APP_NAME" --resource-group "$RESOURCE_GROUP" --plan "plan-npr-prf2026" --runtime "PHP:8.2"
+      - run: az webapp deploy --resource-group $RESOURCE_GROUP --name $APP_NAME --src-path ./index.php --type static --target-path /home/site/wwwroot/index.php
